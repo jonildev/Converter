@@ -3,43 +3,70 @@
 <head>
   <title>Waypoint Converter</title>
   <style>
-    /* Basic styling for clarity */
     textarea { width: 300px; height: 150px; }
+    .converter-container { display: flex; justify-content: space-around; }
+    .converter-section { margin: 20px; }
+    h3 { margin-top: 10px; }
   </style>
 </head>
 <body>
+  <h1>Waypoint Converter</h1>
 
-  <h2>Waypoint Converter</h2>
+  <div class="converter-container">
+    <div class="converter-section"> 
+      <h3>Convert Polar waypoints into Coleweight waypoints.</h3>
+      <label for="input1to2">Format 1 Waypoints:</label><br>
+      <textarea id="input1to2"></textarea><br><br>
+      <button onclick="convert1to2()">Convert</button><br><br>
+      <label for="output1to2">Format 2 Waypoints:</label><br>
+      <textarea id="output1to2" readonly></textarea>
+    </div>
 
-  <label for="input">Format 1 Waypoints:</label><br>
-  <textarea id="input"></textarea><br><br>
-
-  <button onclick="convertWaypoints()">Convert</button><br><br>
-
-  <label for="output">Format 2 Waypoints:</label><br>
-  <textarea id="output" readonly></textarea>
+    <div class="converter-section">
+      <h3>Convert Coleweight waypoints into Polar waypoints.</h3>
+      <label for="input2to1">Format 2 Waypoints:</label><br>
+      <textarea id="input2to1"></textarea><br><br>
+      <button onclick="convert2to1()">Convert</button><br><br>
+      <label for="output2to1">Format 1 Waypoints:</label><br>
+      <textarea id="output2to1" readonly></textarea>
+    </div>
+  </div>
 
   <script>
-    function convertWaypoints() {
-      let inputData = JSON.parse(document.getElementById("input").value);
+      function convert1to2() {
+      let inputData = JSON.parse(document.getElementById("input1to2").value);
       let outputData = [];
-      let nameCounter = 1;  // Start the name counter at 1
+      let nameCounter = 1; 
 
       for (let waypoint of inputData) {
         outputData.push({
           x: waypoint.x1,
           y: waypoint.y1,
           z: waypoint.z1,
-          r: 0,
+          r: 0,  // Default values for r, g, b
           g: 1,
           b: 0,
-          options: { name: nameCounter++ }  // Increment the name counter
+          options: { name: nameCounter++ } 
         });
       }
 
-      document.getElementById("output").value = JSON.stringify(outputData, null, 2); // Pretty print JSON
+      document.getElementById("output1to2").value = JSON.stringify(outputData, null, 2);
+    }
+
+    function convert2to1() {
+      let inputData = JSON.parse(document.getElementById("input2to1").value);
+      let outputData = [];
+
+      for (let waypoint of inputData) {
+        outputData.push({
+          x1: waypoint.x, 
+          y1: waypoint.y,
+          z1: waypoint.z 
+        });
+      }
+
+      document.getElementById("output2to1").value = JSON.stringify(outputData, null, 2);
     }
   </script>
-
 </body>
 </html>
