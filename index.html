@@ -4,14 +4,33 @@
   <title>Waypoint Converter</title>
   <style>
     body {
-  font-family: 'Rubik', sans-serif;
-  background-color: #242424; /* Dark background */
-  color: white;            /* Light text color */
-}
-    textarea { width: 300px; height: 150px; }
-    .converter-container { display: flex; justify-content: space-around; }
-    .converter-section { margin: 20px; }
-    h3 { margin-top: 10px; }
+      font-family: 'Rubik', sans-serif;
+      background-color: #242424;
+      color: white;
+    }
+    textarea {
+      width: 300px;
+      height: 150px;
+      background-color: #242424;
+      color: white;
+      padding: 10px;
+      font-family: monospace;
+      resize: vertical;
+    }
+    .converter-container { 
+      display: flex; 
+      justify-content: space-around; 
+    }
+    .converter-section { 
+      margin: 20px; 
+    }
+    h3 { 
+      margin-top: 10px; 
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -48,7 +67,7 @@
           x: waypoint.x1,
           y: waypoint.y1,
           z: waypoint.z1,
-          r: 0,  // Default values for r, g, b
+          r: 0,
           g: 1,
           b: 0,
           options: { name: nameCounter++ } 
