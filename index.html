@@ -10,30 +10,6 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
-    }
-    textarea {
-      width: 100%;
-      height: 200px;
-      background-color: #333;
-      color: white;
-      padding: 15px;
-      font-family: monospace;
-      resize: vertical;
-      border: 1px solid #555;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    .converter-container { 
-      display: flex; 
-      flex-direction: column;
-      gap: 30px;
-    }
-    .converter-section { 
-      background-color: #2a2a2a;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #444;
-    }
     h1 {
       text-align: center;
       color: #4CAF50;
@@ -62,50 +38,35 @@
     button:hover {
       background-color: #45a049;
     }
-    .example {
-      background-color: #1a1a1a;
+    textarea {
+      width: 100%;
+      height: 200px;
+      background-color: #333;
+      color: white;
       padding: 15px;
+      font-family: monospace;
+      resize: vertical;
+      border: 1px solid #555;
       border-radius: 5px;
-      border-left: 4px solid #4CAF50;
-      margin: 15px 0;
+      box-sizing: border-box;
     }
-    .example h4 {
-      margin-top: 0;
-      color: #81C784;
+    .converter-container { 
+      display: flex; 
+      flex-direction: column;
+      gap: 30px;
     }
-    .example pre {
-      margin: 10px 0;
-      font-size: 12px;
-      overflow-x: auto;
+    .converter-section { 
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #444;
     }
   </style>
 </head>
 <body>
   <h1>Coleweight to Polinex Waypoint Converter</h1>
   
-  <div class="example">
-    <h4>Input Format (Coleweight):</h4>
-    <pre>[
-  {
-    "x": 420,
-    "y": 63,
-    "z": 771,
-    "r": 0,
-    "g": 1,
-    "b": 0,
-    "options": { "name": 1 }
-  }
-]</pre>
-    <h4>Output Format (Polinex):</h4>
-    <pre>[
-  {
-    "x": 420,
-    "y": 63,
-    "z": 771,
-    "moveType": "WARP"
-  }
-]</pre>
-  </div>
+
 
   <div class="converter-container">
     <div class="converter-section">
@@ -141,30 +102,9 @@
       }
     }
 
-    // Add some sample data for testing
+    // Auto-focus on input textarea
     document.addEventListener('DOMContentLoaded', function() {
-      const sampleData = [
-        {
-          "x": 420,
-          "y": 63,
-          "z": 771,
-          "r": 0,
-          "g": 1,
-          "b": 0,
-          "options": { "name": 1 }
-        },
-        {
-          "x": 416,
-          "y": 63,
-          "z": 779,
-          "r": 0,
-          "g": 1,
-          "b": 0,
-          "options": { "name": 2 }
-        }
-      ];
-      
-      document.getElementById("inputColeweight").value = JSON.stringify(sampleData, null, 2);
+      document.getElementById("inputColeweight").focus();
     });
   </script>
 </body>
