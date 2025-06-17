@@ -72,12 +72,19 @@
     <div class="converter-section">
       <h3>Convert Coleweight waypoints to Polinex format</h3>
       <label for="inputColeweight">Coleweight Waypoints (JSON):</label>
+      <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+        <button onclick="pasteFromClipboard()" style="flex: 1;">Paste from Clipboard</button>
+      </div>
       <textarea id="inputColeweight" placeholder="Paste your Coleweight waypoints JSON here..."></textarea>
       
       <button onclick="convertToPolinex()">Convert to Polinex</button>
       
       <label for="outputPolinex">Polinex Waypoints (JSON):</label>
       <textarea id="outputPolinex" readonly placeholder="Converted Polinex waypoints will appear here..."></textarea>
+      
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <button onclick="copyToClipboard()" id="copyButton" style="display: none; flex: 1;">Copy to Clipboard</button>
+      </div>
     </div>
   </div>
 
@@ -97,8 +104,42 @@
         }
         
         document.getElementById("outputPolinex").value = JSON.stringify(outputData, null, 2);
+        document.getElementById("copyButton").style.display = "inline-block";
       } catch (error) {
         alert("Error parsing JSON: " + error.message + "\n\nPlease check that your input is valid JSON format.");
+      }
+    }
+
+    function pasteFromClipboard() {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        navigator.clipboard.readText().then(text => {
+          document.getElementById("inputColeweight").value = text;
+        }).catch(err => {
+          alert("Failed to paste from clipboard. Please paste manually using Ctrl+V.");
+        });
+      } else {
+        alert("Clipboard access not supported. Please paste manually using Ctrl+V.");
+      }
+    }
+
+    function copyToClipboard() {
+      const outputText = document.getElementById("outputPolinex");
+      outputText.select();
+      outputText.setSelectionRange(0, 99999); // For mobile devices
+      
+      try {
+        document.execCommand('copy');
+        const button = document.getElementById("copyButton");
+        const originalText = button.textContent;
+        button.textContent = "Copied!";
+        button.style.backgroundColor = "#45a049";
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.backgroundColor = "#4CAF50";
+        }, 2000);
+      } catch (err) {
+        alert("Failed to copy to clipboard. Please select and copy manually.");
       }
     }
 
