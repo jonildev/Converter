@@ -1,96 +1,171 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Waypoint Converter</title>
+  <title>Coleweight to Polinex Converter</title>
   <style>
     body {
       font-family: 'Rubik', sans-serif;
       background-color: #242424;
       color: white;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
     }
     textarea {
-      width: 300px;
-      height: 150px;
-      background-color: #242424;
+      width: 100%;
+      height: 200px;
+      background-color: #333;
       color: white;
-      padding: 10px;
+      padding: 15px;
       font-family: monospace;
       resize: vertical;
+      border: 1px solid #555;
+      border-radius: 5px;
+      box-sizing: border-box;
     }
     .converter-container { 
       display: flex; 
-      justify-content: space-around; 
+      flex-direction: column;
+      gap: 30px;
     }
     .converter-section { 
-      margin: 20px; 
+      background-color: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #444;
+    }
+    h1 {
+      text-align: center;
+      color: #4CAF50;
+      margin-bottom: 30px;
     }
     h3 { 
-      margin-top: 10px; 
+      margin-top: 0;
+      color: #81C784;
     }
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 15px 0;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .example {
+      background-color: #1a1a1a;
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid #4CAF50;
+      margin: 15px 0;
+    }
+    .example h4 {
+      margin-top: 0;
+      color: #81C784;
+    }
+    .example pre {
+      margin: 10px 0;
+      font-size: 12px;
+      overflow-x: auto;
     }
   </style>
 </head>
 <body>
-  <h1>Waypoint Converter</h1>
+  <h1>Coleweight to Polinex Waypoint Converter</h1>
+  
+  <div class="example">
+    <h4>Input Format (Coleweight):</h4>
+    <pre>[
+  {
+    "x": 420,
+    "y": 63,
+    "z": 771,
+    "r": 0,
+    "g": 1,
+    "b": 0,
+    "options": { "name": 1 }
+  }
+]</pre>
+    <h4>Output Format (Polinex):</h4>
+    <pre>[
+  {
+    "x": 420,
+    "y": 63,
+    "z": 771,
+    "moveType": "WARP"
+  }
+]</pre>
+  </div>
 
   <div class="converter-container">
-    <div class="converter-section"> 
-      <h3>Convert Polar waypoints into Coleweight waypoints.</h3>
-      <label for="input1to2">Format 1 Waypoints:</label><br>
-      <textarea id="input1to2"></textarea><br><br>
-      <button onclick="convert1to2()">Convert</button><br><br>
-      <label for="output1to2">Format 2 Waypoints:</label><br>
-      <textarea id="output1to2" readonly></textarea>
-    </div>
-
     <div class="converter-section">
-      <h3>Convert Coleweight waypoints into Polar waypoints.</h3>
-      <label for="input2to1">Format 2 Waypoints:</label><br>
-      <textarea id="input2to1"></textarea><br><br>
-      <button onclick="convert2to1()">Convert</button><br><br>
-      <label for="output2to1">Format 1 Waypoints:</label><br>
-      <textarea id="output2to1" readonly></textarea>
+      <h3>Convert Coleweight waypoints to Polinex format</h3>
+      <label for="inputColeweight">Coleweight Waypoints (JSON):</label>
+      <textarea id="inputColeweight" placeholder="Paste your Coleweight waypoints JSON here..."></textarea>
+      
+      <button onclick="convertToPolinex()">Convert to Polinex</button>
+      
+      <label for="outputPolinex">Polinex Waypoints (JSON):</label>
+      <textarea id="outputPolinex" readonly placeholder="Converted Polinex waypoints will appear here..."></textarea>
     </div>
   </div>
 
   <script>
-      function convert1to2() {
-      let inputData = JSON.parse(document.getElementById("input1to2").value);
-      let outputData = [];
-      let nameCounter = 1; 
-
-      for (let waypoint of inputData) {
-        outputData.push({
-          x: waypoint.x1,
-          y: waypoint.y1,
-          z: waypoint.z1,
-          r: 0,
-          g: 1,
-          b: 0,
-          options: { name: nameCounter++ } 
-        });
+    function convertToPolinex() {
+      try {
+        let inputData = JSON.parse(document.getElementById("inputColeweight").value);
+        let outputData = [];
+        
+        for (let waypoint of inputData) {
+          outputData.push({
+            x: waypoint.x,
+            y: waypoint.y,
+            z: waypoint.z,
+            moveType: "WARP"
+          });
+        }
+        
+        document.getElementById("outputPolinex").value = JSON.stringify(outputData, null, 2);
+      } catch (error) {
+        alert("Error parsing JSON: " + error.message + "\n\nPlease check that your input is valid JSON format.");
       }
-
-      document.getElementById("output1to2").value = JSON.stringify(outputData, null, 2);
     }
 
-    function convert2to1() {
-      let inputData = JSON.parse(document.getElementById("input2to1").value);
-      let outputData = [];
-
-      for (let waypoint of inputData) {
-        outputData.push({
-          x1: waypoint.x, 
-          y1: waypoint.y,
-          z1: waypoint.z 
-        });
-      }
-
-      document.getElementById("output2to1").value = JSON.stringify(outputData, null, 2);
-    }
+    // Add some sample data for testing
+    document.addEventListener('DOMContentLoaded', function() {
+      const sampleData = [
+        {
+          "x": 420,
+          "y": 63,
+          "z": 771,
+          "r": 0,
+          "g": 1,
+          "b": 0,
+          "options": { "name": 1 }
+        },
+        {
+          "x": 416,
+          "y": 63,
+          "z": 779,
+          "r": 0,
+          "g": 1,
+          "b": 0,
+          "options": { "name": 2 }
+        }
+      ];
+      
+      document.getElementById("inputColeweight").value = JSON.stringify(sampleData, null, 2);
+    });
   </script>
 </body>
 </html>
