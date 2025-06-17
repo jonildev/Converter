@@ -111,15 +111,13 @@
     }
 
     function pasteFromClipboard() {
-      if (navigator.clipboard && navigator.clipboard.readText) {
-        navigator.clipboard.readText().then(text => {
-          document.getElementById("inputColeweight").value = text;
-        }).catch(err => {
-          alert("Failed to paste from clipboard. Please paste manually using Ctrl+V.");
-        });
-      } else {
-        alert("Clipboard access not supported. Please paste manually using Ctrl+V.");
-      }
+      navigator.clipboard.readText().then(text => {
+        document.getElementById("inputColeweight").value = text;
+      }).catch(err => {
+        // Fallback for older browsers or permission denied
+        document.getElementById("inputColeweight").focus();
+        alert("Please use Ctrl+V to paste your waypoints.");
+      });
     }
 
     function copyToClipboard() {
